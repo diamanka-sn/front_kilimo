@@ -16,6 +16,7 @@ export interface CrudOperations<T> {
 export class AbstractService<T> implements CrudOperations<T> {
   constructor(private http: HttpClient, private matSnackbar: MatSnackBar) { }
   apiUrl = "http://localhost:3000/api"
+  apiUrl_model = " http://127.0.0.1:5000"
 
 
   create(lien: string, item: T): Observable<T | null> {
@@ -27,9 +28,29 @@ export class AbstractService<T> implements CrudOperations<T> {
       })
     )
   }
+  create_model(lien: string, item: T): Observable<T | null> {
+    return this.http.post<T>(`${this.apiUrl_model}/${lien}`, item).pipe(
+      tap(console.log),
+      catchError((error) => {
+        this.handleError(error)
+        return of(null)
+      })
+    )
+  }
 
   read(lien: string): Observable<T | null> {
     return this.http.get<T>(`${this.apiUrl}/${lien}`).pipe(
+      tap(t => console.log(t)),
+      first(),
+      retry(3),
+      catchError((error: any) => {
+        return of(null);
+      })
+    );
+  }
+
+  read_model(lien: string, value: any): Observable<T | null> {
+    return this.http.get<T>(`${this.apiUrl_model}/${lien}`).pipe(
       tap(t => console.log(t)),
       first(),
       retry(3),
