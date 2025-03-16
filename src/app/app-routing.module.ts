@@ -13,11 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
   },
   {
-    path: 'my',
-    loadChildren: () => import('./features/pages/pages.module').then(m => m.PagesModule),
-    canActivate:[authGuard]
-  },
-  {
     path: '**',
     component: NotFoundComponent
   }
