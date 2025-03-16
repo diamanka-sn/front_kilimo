@@ -16,7 +16,7 @@ export interface CrudOperations<T> {
 export class AbstractService<T> implements CrudOperations<T> {
   constructor(private http: HttpClient, private matSnackbar: MatSnackBar) { }
   apiUrl = "http://localhost:3000/api"
-  apiUrl_model = " http://127.0.0.1:5000"
+  apiUrl_model = "https://zedi-back.onrender.com"
 
 
   create(lien: string, item: T): Observable<T | null> {
